@@ -359,8 +359,3 @@ func (a *App) logPlatformInfo() {
 func (a *App) platformEnvironment() map[string]any {
 	return map[string]any{}
 }
-
-
-func fatalHandler(errFunc func(error)) {
-	return 
-}

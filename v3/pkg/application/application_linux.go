@@ -253,8 +253,3 @@ func (a *App) platformEnvironment() map[string]any {
 	)
 	return result
 }
-
-func fatalHandler(errFunc func(error)) {
-	// Stub for windows function
-	return
-}

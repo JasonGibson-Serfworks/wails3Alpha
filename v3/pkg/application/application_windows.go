@@ -358,8 +358,3 @@ func (a *App) platformEnvironment() map[string]any {
 	result["WebView2"] = webviewVersion
 	return result
 }
-
-func fatalHandler(errFunc func(error)) {
-	w32.Fatal = errFunc
-	return 
-}
