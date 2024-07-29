@@ -3,8 +3,6 @@ package application
 import (
 	"embed"
 	"encoding/json"
-	"fmt"
-	"github.com/wailsapp/wails/v3/pkg/w32"
 	"io"
 	"log"
 	"log/slog"
