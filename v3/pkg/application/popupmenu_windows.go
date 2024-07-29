@@ -131,12 +131,12 @@ func (p *Win32Menu) buildMenu(parentMenu w32.HMENU, inputMenu *Menu) {
 		}
 		ok := w32.AppendMenu(parentMenu, flags, uintptr(itemID), w32.MustStringToUTF16Ptr(menuText))
 		if !ok {
-			globalApplication.fatal(fmt.Sprintf("Error adding menu item: %s", menuText))
+			w32.Fatal(fmt.Sprintf("Error adding menu item: %s", menuText))
 		}
 		if item.bitmap != nil {
 			err := w32.SetMenuIcons(parentMenu, itemID, item.bitmap, nil)
 			if err != nil {
-				globalApplication.fatal(fmt.Sprintf("Error setting menu icons: %s", err.Error()))
+				w32.Fatal(fmt.Sprintf("Error setting menu icons: %s", err.Error()))
 			}
 		}
 
@@ -191,7 +191,7 @@ func (p *Win32Menu) ShowAt(x int, y int) {
 	}
 
 	if !w32.TrackPopupMenuEx(p.menu, w32.TPM_LEFTALIGN, int32(x), int32(y-5), p.parent, nil) {
-		globalApplication.fatal("TrackPopupMenu failed")
+		w32.Fatal("TrackPopupMenu failed")
 	}
 
 	if p.onMenuClose != nil {
@@ -199,7 +199,7 @@ func (p *Win32Menu) ShowAt(x int, y int) {
 	}
 
 	if !w32.PostMessage(p.parent, w32.WM_NULL, 0, 0) {
-		globalApplication.fatal("PostMessage failed")
+		w32.Fatal("PostMessage failed")
 	}
 
 }
@@ -207,7 +207,7 @@ func (p *Win32Menu) ShowAt(x int, y int) {
 func (p *Win32Menu) ShowAtCursor() {
 	x, y, ok := w32.GetCursorPos()
 	if ok == false {
-		globalApplication.fatal("GetCursorPos failed")
+		w32.Fatal("GetCursorPos failed")
 	}
 
 	p.ShowAt(x, y)

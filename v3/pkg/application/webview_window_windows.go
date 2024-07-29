@@ -198,9 +198,6 @@ func (w *windowsWebviewWindow) run() {
 	options := w.parent.options
 
 	w.chromium = edge.NewChromium()
-	if globalApplication.options.ErrorHandler != nil {
-		w.chromium.SetErrorCallback(globalApplication.options.ErrorHandler)
-	}
 
 	exStyle := w32.WS_EX_CONTROLPARENT
 	if options.BackgroundType != BackgroundTypeSolid {
@@ -554,10 +551,7 @@ func (w *windowsWebviewWindow) fullscreen() {
 		return
 	}
 	if w.framelessWithDecorations() {
-		err := w32.ExtendFrameIntoClientArea(w.hwnd, false)
-		if err != nil {
-			globalApplication.handleFatalError(err)
-		}
+		w32.ExtendFrameIntoClientArea(w.hwnd, false)
 	}
 	w.disableSizeConstraints()
 	w.previousWindowStyle = uint32(w32.GetWindowLongPtr(w.hwnd, w32.GWL_STYLE))
@@ -589,10 +583,7 @@ func (w *windowsWebviewWindow) unfullscreen() {
 		return
 	}
 	if w.framelessWithDecorations() {
-		err := w32.ExtendFrameIntoClientArea(w.hwnd, true)
-		if err != nil {
-			globalApplication.handleFatalError(err)
-		}
+		w32.ExtendFrameIntoClientArea(w.hwnd, true)
 	}
 	w32.SetWindowLong(w.hwnd, w32.GWL_STYLE, w.previousWindowStyle)
 	w32.SetWindowLong(w.hwnd, w32.GWL_EXSTYLE, w.previousWindowExStyle)
@@ -989,10 +980,7 @@ func (w *windowsWebviewWindow) WndProc(msg uint32, wparam, lparam uintptr) uintp
 		// As a result we have hidden the titlebar but still have the default window frame styling.
 		// See: https://docs.microsoft.com/en-us/windows/win32/api/dwmapi/nf-dwmapi-dwmextendframeintoclientarea#remarks
 		if w.framelessWithDecorations() {
-			err := w32.ExtendFrameIntoClientArea(w.hwnd, true)
-			if err != nil {
-				globalApplication.handleFatalError(err)
-			}
+			w32.ExtendFrameIntoClientArea(w.hwnd, true)
 		}
 	case w32.WM_CLOSE:
 		w.parent.emit(events.Windows.WindowClose)
@@ -1124,10 +1112,7 @@ func (w *windowsWebviewWindow) WndProc(msg uint32, wparam, lparam uintptr) uintp
 			// As a result we have hidden the titlebar but still have the default window frame styling.
 			// See: https://docs.microsoft.com/en-us/windows/win32/api/dwmapi/nf-dwmapi-dwmextendframeintoclientarea#remarks
 			if w.framelessWithDecorations() {
-				err := w32.ExtendFrameIntoClientArea(w.hwnd, true)
-				if err != nil {
-					globalApplication.handleFatalError(err)
-				}
+				w32.ExtendFrameIntoClientArea(w.hwnd, true)
 			}
 
 		case w32.WM_NCCALCSIZE:

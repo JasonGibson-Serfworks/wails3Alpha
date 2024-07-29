@@ -92,9 +92,6 @@ type Options struct {
 	// This is useful for implementing custom frontend-to-backend communication.
 	RawMessageHandler func(window Window, message string)
 
-	// ErrorHandler is called when an error occurs
-	ErrorHandler func(err error)
-
 	// This blank field ensures types from other packages
 	// are never convertible to Options.
 	// This property, in turn, improves the accuracy of the binding generator.
